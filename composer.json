@@ -16,5 +16,10 @@
             "email": "kalbievich11@gmail.com"
         }
     ],
+    "autoload": {
+        "psr-4": { 
+            "apollo11\\envAnalizer": "" 
+        }
+    },
     "require": {}
 }
