@@ -1,7 +1,20 @@
 {
     "name": "apollo11/env-analizer",
     "description": "Analyzes environment files",
+    "keywords": [
+        "env",
+        "environment",
+        "env-checker",
+        "env-analizer"
+    ],
     "type": "library",
     "minimum-stability": "dev",
+    "homepage": "https://github.com/apolloeleven/env-analizer",
+    "authors": [
+        {
+            "name": "Saiat Kalbiev",
+            "email": "kalbievich11@gmail.com"
+        }
+    ],
     "require": {}
 }
