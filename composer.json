@@ -18,7 +18,7 @@
     ],
     "autoload": {
         "psr-4": { 
-            "apollo11\\envAnalizer": "" 
+            "apollo11\\envAnalizer\\": "" 
         }
     },
     "require": {}
