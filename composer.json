@@ -1,0 +1,7 @@
+{
+    "name": "apollo11/env-analizer",
+    "description": "Analyzes environment files",
+    "type": "library",
+    "minimum-stability": "dev",
+    "require": {}
+}
