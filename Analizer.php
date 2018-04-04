@@ -46,15 +46,31 @@ class Analizer
         $this->environmentDistPath = $environmentDistPath;
     }
 
-    public function validate()
+    private function validate()
     {
         $this->setInvironmet();
         $this->setInvironmetDist();
+    }
 
-        return [
-            'env' => $this->environment,
-            'dist' => $this->environmentDist
-        ];
+    public function checkMissingVariables()
+    {
+        $this->validate();
+        $difference = $this->getDifference();
+
+        if(!$difference) {
+            echo "No missing variables were found in Environment file \n";
+            return;
+        }
+
+        foreach($difference as $key => $value){
+            $envValue = readline("[ENV] -- Insert the value for `{$key}`({$value}): ");
+            if ( preg_match('/\s/',$envValue) ){
+                $envValue = '"' . $envValue . '"';
+            }
+            $txt = $key . " = " . $envValue;
+            $myfile = file_put_contents($this->environmentPath, "\n".$txt.PHP_EOL , FILE_APPEND | LOCK_EX);
+        }
+        return;
     }
 
     private function setInvironmet()
@@ -118,13 +134,24 @@ class Analizer
 
     protected function checkFailValidity($filePath)
     {
-        if(!file_exists($filePath)) {
+        if (!file_exists($filePath)) {
             throw new FileNotFoundException("File with path: {$filePath} was not found");
         }
 
         if (!is_readable($filePath) || !is_file($filePath)) {
-            throw new InvalidFileException("File was either not readable or is a directory");
+            throw new InvalidFileException("File with path {$filePath} was either not readable or is a directory");
         }
+    }
+
+    private function getDifference()
+    {
+        $returnArray = [];
+        foreach ($this->environmentDist as $environmentDistKey => $environmentDistValue) {
+            if(!key_exists($environmentDistKey,$this->environment)) {
+                $returnArray[$environmentDistKey] = $environmentDistValue;
+            }
+        }
+        return $returnArray;
     }
 
 }
