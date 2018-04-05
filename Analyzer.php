@@ -6,13 +6,13 @@
  * @author Saiat Kalbiev <kalbievich11@gmail.com>
  */
 
-namespace apollo11\envAnalizer;
-
+namespace apollo11\envAnalyzer;
 
 use Composer\Script\Event;
 
-class Analizer
+class Analyzer
 {
+
 
     /**
      * @param Event $event
@@ -20,7 +20,7 @@ class Analizer
      * @throws exceptions\FileNotFoundException
      * @throws exceptions\InvalidFileException
      */
-    public static function analizeEnv(Event $event)
+    public static function analyzeEnv(Event $event)
     {
         $extras = $event->getComposer()->getPackage()->getExtra();
 
@@ -34,8 +34,8 @@ class Analizer
         }
 
         if(isset($configs['env-path']) && isset($configs['env-dist-path'])) {
-            $analizer = new Env($configs['env-path'],$configs['env-dist-path']);
-            $analizer->checkMissingVariables();
+            $analyzer = new Env($configs['env-path'],$configs['env-dist-path']);
+            $analyzer->checkMissingVariables();
 
         } else {
             throw new \InvalidArgumentException('Either `env-path` or `env-dist-path` was not found.');

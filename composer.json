@@ -1,15 +1,15 @@
 {
-    "name": "apollo11/env-analizer",
+    "name": "apollo11/env-analyzer",
     "description": "Analyzes environment files",
     "keywords": [
         "env",
         "environment",
         "env-checker",
-        "env-analizer"
+        "env-analyzer"
     ],
     "type": "library",
     "minimum-stability": "dev",
-    "homepage": "https://github.com/apolloeleven/env-analizer",
+    "homepage": "https://github.com/apolloeleven/env-analyzer",
     "authors": [
         {
             "name": "Saiat Kalbiev",
@@ -18,7 +18,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "apollo11\\envAnalizer\\": ""
+            "apollo11\\envAnalyzer\\": ""
         }
     },
     "require": {

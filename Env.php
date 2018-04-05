@@ -7,11 +7,11 @@
  * @author Saiat Kalbiev <kalbievich11@gmail.com>
  */
 
-namespace apollo11\envAnalizer;
+namespace apollo11\envAnalyzer;
 
 
-use apollo11\envAnalizer\exceptions\FileNotFoundException;
-use apollo11\envAnalizer\exceptions\InvalidFileException;
+use apollo11\envAnalyzer\exceptions\FileNotFoundException;
+use apollo11\envAnalyzer\exceptions\InvalidFileException;
 
 class Env
 {

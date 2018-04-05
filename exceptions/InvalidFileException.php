@@ -7,12 +7,12 @@
  * @author Saiat Kalbiev <kalbievich11@gmail.com>
  */
 
-namespace apollo11\envAnalizer\exceptions;
+namespace apollo11\envAnalyzer\exceptions;
 
 
 class InvalidFileException extends \Exception
 {
-    public function __construct($message, $code = 0, Exception $previous = null) {
+    public function __construct($message, $code = 0, $previous = null) {
         parent::__construct($message, $code, $previous);
     }
 

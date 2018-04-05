@@ -1,2 +1,2 @@
-# env-analizer
+# env-analyzer
 Analyzes environment files
