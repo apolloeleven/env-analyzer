@@ -20,7 +20,7 @@ class Analyzer
      * @throws exceptions\FileNotFoundException
      * @throws exceptions\InvalidFileException
      */
-    public static function analyzeEnv(Event $event)
+    public static function analyzeEnvComposer(Event $event)
     {
         $extras = $event->getComposer()->getPackage()->getExtra();
 
@@ -33,14 +33,25 @@ class Analyzer
             throw new \InvalidArgumentException('The extra.apollo11-parameters setting must be an array that should contain `env-path` and `env-dist-path`.');
         }
 
-        if(isset($configs['env-path']) && isset($configs['env-dist-path'])) {
-            $analyzer = new Env($configs['env-path'],$configs['env-dist-path']);
-            $analyzer->checkMissingVariables();
-
+        if (isset($configs['env-path']) && isset($configs['env-dist-path'])) {
+            self::analyzeEnv($configs['env-path'],$configs['env-dist-path']);
         } else {
             throw new \InvalidArgumentException('Either `env-path` or `env-dist-path` was not found.');
         }
 
+    }
+
+    /**
+     * @param $envPath string
+     * @param $envDistPath string
+     * @author Saiat Kalbiev <kalbievich11@gmail.com>
+     * @throws exceptions\FileNotFoundException
+     * @throws exceptions\InvalidFileException
+     */
+    public static function analyzeEnv($envPath, $envDistPath)
+    {
+        $analyzer = new Env($envPath,$envDistPath);
+        $analyzer->checkMissingVariables();
     }
 
     /**
@@ -49,7 +60,7 @@ class Analyzer
      * @throws exceptions\FileNotFoundException
      * @throws exceptions\InvalidFileException
      */
-    public static function analyzePhp(Event $event)
+    public static function analyzePhpComposer(Event $event)
     {
         $extras = $event->getComposer()->getPackage()->getExtra();
 
@@ -62,15 +73,24 @@ class Analyzer
             throw new \InvalidArgumentException('The extra.apollo11-parameters setting must be an array that should contain `php-env-path` and `php-env-dist-path`.');
         }
 
-        if(isset($configs['php-env-path']) && isset($configs['php-env-dist-path'])) {
-            $analyzer = new Php($configs['php-env-path'],$configs['php-env-dist-path']);
-            $analyzer->checkMissingVariables();
-
+        if (isset($configs['php-env-path']) && isset($configs['php-env-dist-path'])) {
+            self::analyzePhp($configs['php-env-path'],$configs['php-env-dist-path']);
         } else {
             throw new \InvalidArgumentException('Either `php-env-path` or `php-env-dist-path` was not found.');
         }
-
     }
 
+    /**
+     * @param $phpEnvPath
+     * @param $phpEnvDistPath
+     * @author Saiat Kalbiev <kalbievich11@gmail.com>
+     * @throws exceptions\FileNotFoundException
+     * @throws exceptions\InvalidFileException
+     */
+    public static function analyzePhp($phpEnvPath, $phpEnvDistPath)
+    {
+        $analyzer = new Php($phpEnvPath, $phpEnvDistPath);
+        $analyzer->checkMissingVariables();
+    }
 
 }
