@@ -43,5 +43,34 @@ class Analyzer
 
     }
 
+    /**
+     * @param Event $event
+     * @author Saiat Kalbiev <kalbievich11@gmail.com>
+     * @throws exceptions\FileNotFoundException
+     * @throws exceptions\InvalidFileException
+     */
+    public static function analyzePhp(Event $event)
+    {
+        $extras = $event->getComposer()->getPackage()->getExtra();
+
+        if (!isset($extras['apollo11-parameters'])) {
+            throw new \InvalidArgumentException('The parameter handler needs to be configured through the extra.apollo11-parameters setting.');
+        }
+        $configs = $extras['apollo11-parameters'];
+
+        if (!is_array($configs) || empty($configs)) {
+            throw new \InvalidArgumentException('The extra.apollo11-parameters setting must be an array that should contain `php-env-path` and `php-env-dist-path`.');
+        }
+
+        if(isset($configs['php-env-path']) && isset($configs['php-env-dist-path'])) {
+            $analyzer = new Php($configs['php-env-path'],$configs['php-env-dist-path']);
+            $analyzer->checkMissingVariables();
+
+        } else {
+            throw new \InvalidArgumentException('Either `php-env-path` or `php-env-dist-path` was not found.');
+        }
+
+    }
+
 
 }
