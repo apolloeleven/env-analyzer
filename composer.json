@@ -17,9 +17,11 @@
         }
     ],
     "autoload": {
-        "psr-4": { 
-            "apollo11\\envAnalizer\\": "" 
+        "psr-4": {
+            "apollo11\\envAnalizer\\": ""
         }
     },
-    "require": {}
+    "require": {
+        "composer/composer":">=1.6.3"
+    }
 }
