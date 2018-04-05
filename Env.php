@@ -12,6 +12,9 @@ namespace apollo11\envAnalyzer;
 
 use apollo11\envAnalyzer\exceptions\FileNotFoundException;
 use apollo11\envAnalyzer\exceptions\InvalidFileException;
+use apollo11\envAnalyzer\helpers\ArrayHelper;
+use apollo11\envAnalyzer\helpers\ConsoleHelper;
+use apollo11\envAnalyzer\helpers\FileHelper;
 
 class Env
 {
@@ -45,7 +48,7 @@ class Env
      */
     public function setEnvironmentPath($environmentPath)
     {
-        $this->checkFailValidity($environmentPath);
+        FileHelper::checkFileValidity($environmentPath);
         $this->environmentPath = $environmentPath;
     }
 
@@ -58,7 +61,7 @@ class Env
      */
     public function setEnvironmentDistPath($environmentDistPath)
     {
-        $this->checkFailValidity($environmentDistPath);
+        FileHelper::checkFileValidity($environmentDistPath);
         $this->environmentDistPath = $environmentDistPath;
     }
 
@@ -81,21 +84,25 @@ class Env
     public function checkMissingVariables()
     {
         $this->validate();
-        $difference = $this->getDifference();
+        $difference = ArrayHelper::getMissingValues($this->environmentDist,$this->environment);
+        $consoleHelper = new ConsoleHelper();
 
         if(!$difference) {
-            echo "No missing variables were found in Environment file \n";
+            echo $consoleHelper->getColoredString("Warning: No missing variables were found in Environment file.",null,ConsoleHelper::BACKGROUND_YELLOW) . "\n";
             return;
         }
 
         foreach($difference as $key => $value){
-            $envValue = readline("[ENV] -- Insert the value for `{$key}`({$value}): ");
+            $tmpKey = $consoleHelper->getColoredString($key,ConsoleHelper::FOREGROUND_GREEN,null);
+            echo "[ENV] -- Insert the value for `{$tmpKey}`({$value}): ";
+            $envValue = readline();
             if ( preg_match('/\s/',$envValue) ){
                 $envValue = '"' . $envValue . '"';
             }
             $txt = $key . " = " . $envValue;
-            $myfile = file_put_contents($this->environmentPath, "\n".$txt.PHP_EOL , FILE_APPEND | LOCK_EX);
+            file_put_contents($this->environmentPath, "\n".$txt.PHP_EOL , FILE_APPEND | LOCK_EX);
         }
+        echo $consoleHelper->getColoredString("Env file has been updated successfully!",null,ConsoleHelper::BACKGROUND_GREEN) ."\n";
         return;
     }
 
@@ -106,7 +113,7 @@ class Env
      */
     private function setEnvironment()
     {
-        $this->checkFailValidity($this->environmentPath);
+        FileHelper::checkFileValidity($this->environmentPath);
         $variables = [];
         $lines = file($this->environmentPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
@@ -134,7 +141,7 @@ class Env
      */
     private function setEnvironmentDist()
     {
-        $this->checkFailValidity($this->environmentDistPath);
+        FileHelper::checkFileValidity($this->environmentDistPath);
         $variables = [];
         $lines = file($this->environmentDistPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
@@ -175,35 +182,4 @@ class Env
         ];
     }
 
-    /**
-     * @param $filePath string
-     * @author Saiat Kalbiev <kalbievich11@gmail.com>
-     * @throws FileNotFoundException
-     * @throws InvalidFileException
-     */
-    protected function checkFailValidity($filePath)
-    {
-        if (!file_exists($filePath)) {
-            throw new FileNotFoundException("File with path: {$filePath} was not found");
-        }
-
-        if (!is_readable($filePath) || !is_file($filePath)) {
-            throw new InvalidFileException("File with path {$filePath} was either not readable or is a directory");
-        }
-    }
-
-    /**
-     * @return array
-     * @author Saiat Kalbiev <kalbievich11@gmail.com>
-     */
-    private function getDifference()
-    {
-        $returnArray = [];
-        foreach ($this->environmentDist as $environmentDistKey => $environmentDistValue) {
-            if(!key_exists($environmentDistKey,$this->environment)) {
-                $returnArray[$environmentDistKey] = $environmentDistValue;
-            }
-        }
-        return $returnArray;
-    }
 }
