@@ -50,11 +50,11 @@ Add the following code to the `extra` in projects `composer.json` file
 ```
 "apollo11-parameters": {
             //env-path and env-dist-path for analyzing env files
-            "env-path": "/full/path/to/.env",
-            "env-dist-path": "/full/path/to/.env.dist",
+            "env-path": ".env",
+            "env-dist-path": ".env.dist",
             //php-env-path and php-env-dist-path for analyzing php files
-            "php-env-path": "/full/path/to/env.php",
-            "php-env-dist-path": "/full/path/to/env.dist.php"
+            "php-env-path": "env.php",
+            "php-env-dist-path": "env.dist.php"
   },
 ```
 
