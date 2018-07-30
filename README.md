@@ -21,7 +21,7 @@ to the require section of your `composer.json` file and run `php composer.phar u
 The package offers:
 
 1. [Env](https://github.com/apolloeleven/env-analyzer/blob/master/Env.php) class which can store `.env` and `.env.dist` file path, as well as, getting the difference between those files.
-2. [Php](https://github.com/apolloeleven/env-analyzer/blob/master/Php.php) class which can store `env.php` and `env.dist.php` file path, as well as, getting the difference between those filese. Note: both `php` files should return Associative array either strings or integers.  
+2. [Php](https://github.com/apolloeleven/env-analyzer/blob/master/Php.php) class which can store `env.php` and `env.dist.php` file path, as well as, getting the difference between those files. Note: both `php` files should return Associative array either strings or integers.  
 3. [Analyzer](https://github.com/apolloeleven/env-analyzer/blob/master/Analyzer.php) class which is used for getting the difference of files through the console
 
 Basic Usage
@@ -45,7 +45,7 @@ Usage from Composer
 
 You can also run [Analyzer](https://github.com/apolloeleven/env-analyzer/blob/master/Analyzer.php) on [Composer Scripts](https://getcomposer.org/doc/articles/scripts.md)
 
-Add the following code to the `extra` in projects `composer.json` file
+Add the following code to the `extra` in project's `composer.json` file
 
 ```
 "apollo11-parameters": {
