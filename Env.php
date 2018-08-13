@@ -48,7 +48,7 @@ class Env
      */
     public function setEnvironmentPath($environmentPath)
     {
-        FileHelper::checkFileValidity($environmentPath);
+//        FileHelper::checkFileValidity($environmentPath);
         $this->environmentPath = $environmentPath;
     }
 
@@ -61,7 +61,7 @@ class Env
      */
     public function setEnvironmentDistPath($environmentDistPath)
     {
-        FileHelper::checkFileValidity($environmentDistPath);
+//        FileHelper::checkFileValidity($environmentDistPath);
         $this->environmentDistPath = $environmentDistPath;
     }
 
@@ -92,15 +92,19 @@ class Env
             return;
         }
 
+        $maxKeyLength = 0;
+        foreach($difference as $key => $value) {
+            $maxKeyLength = max($maxKeyLength, strlen($key));
+        }
         foreach($difference as $key => $value){
             $tmpKey = $consoleHelper->getColoredString($key,ConsoleHelper::FOREGROUND_GREEN,null);
             echo "[ENV] -- Insert the value for `{$tmpKey}`({$value}): ";
-            $envValue = readline();
+            $envValue = readline() ?: $value;
             if ( preg_match('/\s/',$envValue) ){
                 $envValue = '"' . $envValue . '"';
             }
-            $txt = $key . " = " . $envValue;
-            file_put_contents($this->environmentPath, "\n".$txt.PHP_EOL , FILE_APPEND | LOCK_EX);
+            $txt = str_pad($key, $maxKeyLength + 2, ' ', STR_PAD_RIGHT) . " = " . $envValue;
+            file_put_contents($this->environmentPath, $txt.PHP_EOL , FILE_APPEND | LOCK_EX);
         }
         echo $consoleHelper->getColoredString("Env file has been updated successfully!",null,ConsoleHelper::BACKGROUND_GREEN) ."\n";
         return;
@@ -113,7 +117,10 @@ class Env
      */
     private function setEnvironment()
     {
-        FileHelper::checkFileValidity($this->environmentPath);
+        if (!file_exists($this->environmentPath)){
+            touch($this->environmentPath);
+        }
+        FileHelper::isValidConfigFile($this->environmentPath);
         $variables = [];
         $lines = file($this->environmentPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
@@ -141,7 +148,7 @@ class Env
      */
     private function setEnvironmentDist()
     {
-        FileHelper::checkFileValidity($this->environmentDistPath);
+        FileHelper::isValidSampleConfigFile($this->environmentDistPath);
         $variables = [];
         $lines = file($this->environmentDistPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 

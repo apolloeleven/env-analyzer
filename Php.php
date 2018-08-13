@@ -58,7 +58,7 @@ class Php
      */
     public function setPhpDistFilePath($phpDistFilePath)
     {
-        FileHelper::checkFileValidity($phpDistFilePath);
+//        FileHelper::checkFileValidity($phpDistFilePath);
         $this->phpDistFilePath = $phpDistFilePath;
     }
 
@@ -78,7 +78,7 @@ class Php
      */
     public function setPhpFilePath($phpFilePath)
     {
-        FileHelper::checkFileValidity($phpFilePath);
+//        FileHelper::checkFileValidity($phpFilePath);
         $this->phpFilePath = $phpFilePath;
     }
 
